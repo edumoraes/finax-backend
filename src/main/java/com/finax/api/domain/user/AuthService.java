@@ -11,9 +11,9 @@ public class AuthService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
-    public AuthService(UserRepository userRepository) {
+    /*public AuthService(UserRepository userRepository) {
         this.userRepository = userRepository;
-    }
+    }*/
 
     @Override
     public UserDetails loadUserByUsername(String email) {

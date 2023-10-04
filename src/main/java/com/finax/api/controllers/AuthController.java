@@ -1,8 +1,11 @@
 package com.finax.api.controllers;
 
 import com.finax.api.domain.user.AuthDTO;
-import com.finax.api.domain.user.UserDetailDTO;
+import com.finax.api.domain.user.User;
+import com.finax.api.infra.security.TokenJwtDTO;
+import com.finax.api.infra.security.TokenService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,12 +18,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 public class AuthController {
 
-    private AuthenticationManager authenticationManager;
+    @Autowired
+    private AuthenticationManager manager;
+
+    @Autowired
+    private TokenService tokenService;
 
     @PostMapping
     public ResponseEntity auth(@RequestBody @Valid AuthDTO auth) {
-        var token = new UsernamePasswordAuthenticationToken(auth.email(), auth.password());
-        var authentication = authenticationManager.authenticate(token);
-        return ResponseEntity.ok().build();
+        var authenticationToken = new UsernamePasswordAuthenticationToken(auth.email(), auth.password());
+        var authentication = manager.authenticate(authenticationToken);
+        var tokenJWT = tokenService.generateToken((User) authentication.getPrincipal());
+        var tokenResponse = new TokenJwtDTO(tokenJWT);
+
+        return ResponseEntity.ok(tokenResponse);
     }
 }
