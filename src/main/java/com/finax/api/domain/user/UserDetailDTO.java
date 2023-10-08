@@ -8,12 +8,10 @@ public record UserDetailDTO(
         String id,
         String firstName,
         String lastName,
-        UserRole role,
-        String email,
-        Set<AccountOrganization> accountOrganizations
+        String email
 ) {
 
     public UserDetailDTO(User user) {
-        this(user.getId(), user.getFirstName(), user.getLastName(), user.getRole(), user.getEmail(), user.getAccountOrganizations());
+        this(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail());
     }
 }

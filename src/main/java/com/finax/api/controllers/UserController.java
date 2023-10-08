@@ -2,7 +2,7 @@ package com.finax.api.controllers;
 
 import com.finax.api.domain.user.UserDetailDTO;
 import com.finax.api.domain.user.UserRegistrationDTO;
-import com.finax.api.services.UserService;
+import com.finax.api.domain.user.UserService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class UserController {
     @PostMapping
     @Transactional
     public ResponseEntity create(@RequestBody @Valid UserRegistrationDTO user, UriComponentsBuilder uriComponentsBuilder) {
-        var newUser = service.create(user);
+        var newUser = service.registerNewUserAccount(user);
         var uri = uriComponentsBuilder.path("/users/{id}").buildAndExpand(newUser.getId()).toUri();
         return ResponseEntity.created(uri).body(new UserDetailDTO(newUser));
     }

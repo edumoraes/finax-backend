@@ -7,7 +7,6 @@ public record UserRegistrationDTO(
         @NotBlank
         String firstName,
         String lastName,
-        UserRole role,
         @NotBlank
         @Email
         String email,

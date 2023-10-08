@@ -1,11 +1,12 @@
 package com.finax.api.domain.organization;
 
+import com.finax.api.domain.bill.BillToPay;
+import com.finax.api.domain.bill.BillToReceive;
 import com.finax.api.domain.postaladdress.PostalAddress;
 import com.finax.api.domain.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity(name = "account_organizations")
@@ -18,31 +19,41 @@ import java.util.Set;
 public class AccountOrganization {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
+    @Column(name = "name")
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "address_id")
+    @OneToOne
+    @JoinColumn(name = "address_id", referencedColumnName = "id")
     private PostalAddress address;
 
-    @Column(unique = true)
-    private String document;
-
-    @ManyToOne
-    @JoinColumn(name = "owner_id", nullable = false, updatable = false)
-    private User owner;
-
-    @ManyToMany(mappedBy = "accountOrganizations")
-    private Set<User> users = new HashSet<>();
-
     @Enumerated(EnumType.STRING)
+    @Column(name = "type")
     private OrganizationType type;
 
-    public AccountOrganization(AccountOrganizationCreationDTO data) {
+    @Column(name = "cnpj", unique = true)
+    private String cnpj;
+
+    @OneToOne(mappedBy = "accountOrganization")
+    private User user;
+
+    @OneToMany(mappedBy = "accountOrganization")
+    private Set<BillToPay> billToPay;
+
+    @OneToMany(mappedBy = "accountOrganization")
+    private Set<BillToReceive> billToReceive;
+
+    @OneToMany(mappedBy = "accountOrganization")
+    private Set<SupplierOrganization> suppliers;
+
+    @OneToMany(mappedBy = "accountOrganization")
+    private Set<CustomerOrganization> customers;
+
+    public AccountOrganization(AccountOrganizationRegistrationDTO data) {
         this.name = data.name();
-        this.document = data.document();
-        this.users = data.users();
+        this.cnpj = data.cnpj();
         this.type = data.type();
     }
 }

@@ -1,5 +1,6 @@
 package com.finax.api.domain.postaladdress;
 
+import com.finax.api.domain.organization.AccountOrganization;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,4 +23,17 @@ public class PostalAddress {
     private String state;
     private String country;
     private String zipCode;
+    @OneToOne(mappedBy = "address")
+    private AccountOrganization accountOrganization;
+
+    public PostalAddress(PostalAddressDTO address) {
+        this.street = address.street();
+        this.number = address.number();
+        this.complement = address.complement();
+        this.neighborhood = address.neighborhood();
+        this.city = address.city();
+        this.state = address.state();
+        this.country = address.country();
+        this.zipCode = address.zipCode();
+    }
 }

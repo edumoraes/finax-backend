@@ -23,7 +23,6 @@ public class TokenService {
                     .withIssuer("Finax API")
                     .withSubject(user.getEmail())
                     .withClaim("id", user.getId())
-                    .withClaim("role", user.getRole().name())
                     .withExpiresAt(expiresAt())
                     .sign(algorithm);
         } catch (JWTCreationException exception) {

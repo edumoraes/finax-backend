@@ -22,7 +22,7 @@ import java.util.Set;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id", updatable = false, nullable = false)
+    @Column(name = "id", updatable = false)
     private String id;
 
     @Column(name = "first_name")
@@ -31,29 +31,19 @@ public class User implements UserDetails {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "role")
-    @Enumerated(EnumType.STRING)
-    private UserRole role;
-
     @Column(name = "email", unique = true)
     private String email;
 
     @Column(name = "password")
     private String password;
 
-    @OneToMany(mappedBy = "owner")
-    private List<AccountOrganization> ownedAccountOrganizations;
-
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name = "user_account_organization",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "account_organization_id"))
-    private Set<AccountOrganization> accountOrganizations = new HashSet<>();
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "account_organization_id", referencedColumnName = "id")
+    private AccountOrganization accountOrganization;
 
     public User(UserRegistrationDTO user) {
         this.firstName = user.firstName();
         this.lastName = user.lastName();
-        this.role = user.role();
         this.email = user.email();
         this.password = user.password();
     }
