@@ -48,6 +48,13 @@ public class User implements UserDetails {
         this.password = user.password();
     }
 
+    public User(UserDetailDTO data) {
+        this.id = data.id();
+        this.firstName = data.firstName();
+        this.lastName = data.lastName();
+        this.email = data.email();
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("USER"));
