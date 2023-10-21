@@ -3,6 +3,7 @@ package com.finax.api.controllers;
 import com.finax.api.domain.user.UserDetailDTO;
 import com.finax.api.domain.user.UserRegistrationDTO;
 import com.finax.api.domain.user.UserService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ public class UserController {
         return ResponseEntity.created(uri).body(new UserDetailDTO(newUser));
     }
 
+    @SecurityRequirement(name = "bearer-key")
     @GetMapping("/{id}")
     public ResponseEntity detail(@PathVariable String id) {
         var user = service.detail(id);

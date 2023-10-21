@@ -3,6 +3,7 @@ package com.finax.api.controllers;
 import com.finax.api.domain.organization.SupplierOrganizationDetailDTO;
 import com.finax.api.domain.organization.SupplierOrganizationRegistrationDTO;
 import com.finax.api.domain.organization.SupplierOrganizationService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("/supplier-organizations")
+@SecurityRequirement(name = "bearer-key")
 public class SupplierOrganizationController {
 
     @Autowired

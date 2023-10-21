@@ -1,6 +1,7 @@
 package com.finax.api.controllers;
 
 import com.finax.api.domain.bill.*;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("/bills")
+@SecurityRequirement(name = "bearer-key")
 public class BillController {
 
     @Autowired

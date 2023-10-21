@@ -3,6 +3,7 @@ package com.finax.api.controllers;
 import com.finax.api.domain.organization.CustomerOrganizationDetailDTO;
 import com.finax.api.domain.organization.CustomerOrganizationRegistrationDTO;
 import com.finax.api.domain.organization.CustomerOrganizationService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("/customer-organizations")
+@SecurityRequirement(name = "bearer-key")
 public class CustomerOrganizationController {
 
     @Autowired
