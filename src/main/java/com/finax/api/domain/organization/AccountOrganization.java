@@ -36,8 +36,8 @@ public class AccountOrganization {
     @Column(name = "cnpj", unique = true)
     private String cnpj;
 
-    @OneToOne(mappedBy = "accountOrganization")
-    private User user;
+    @ManyToMany(mappedBy = "accountOrganization")
+    private Set<User> user;
 
     @OneToMany(mappedBy = "accountOrganization")
     private Set<BillToPay> billToPay;

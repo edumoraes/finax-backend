@@ -37,9 +37,11 @@ public class User implements UserDetails {
     @Column(name = "password")
     private String password;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "account_organization_id", referencedColumnName = "id")
-    private AccountOrganization accountOrganization;
+    @ManyToMany
+    @JoinTable(name = "user_account_organization",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "account_organization_id"))
+    private Set<AccountOrganization> accountOrganization;
 
     public User(UserRegistrationDTO user) {
         this.firstName = user.firstName();
